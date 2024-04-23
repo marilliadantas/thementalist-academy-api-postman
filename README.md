@@ -52,7 +52,7 @@ newman run nome_da_collection.json -e env-automacao.json -g env-global.json -r c
 newman run nome_da_collection.json -e env-automacao.json -g env-global.json -r htmlextra
 ```
 
-### Observação: Lembre-se de subistituir [nome_da_collection.json] pelo nome da collection que você deseja rodar. 
+### Obs: Lembre-se de substituir [nome_da_collection.json] pelo nome da collection que você deseja rodar. 
 Neste projeto temos as seguintes collections: 
 - auth_collection.json
 - department_collection.json
