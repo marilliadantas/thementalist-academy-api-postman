@@ -1,0 +1,1853 @@
+{
+	"info": {
+		"_postman_id": "70a61bea-05a4-4a9e-88f4-b96a7239d42c",
+		"name": "department",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30574089",
+		"_collection_link": "https://blue-star-904829.postman.co/workspace/The-Mentalist~6061017f-b4a8-42b7-8c72-fa234aebc7f6/collection/30574089-70a61bea-05a4-4a9e-88f4-b96a7239d42c?action=share&source=collection_link&creator=30574089"
+	},
+	"item": [
+		{
+			"name": "Incluir departamento",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify token is true\", function () {\r",
+											"   pm.expect(JSON.parse(responseBody)).to.have.property(\"token\");\r",
+											"});\r",
+											"\r",
+											"pm.globals.set(\"TokenAdmin\", JSON.parse(responseBody).token)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"mail\": \"{{EmailAdmin}}\",\r\n  \"password\": \"{{PasswordAdmin}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validar Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/validateToken",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"validateToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Incluir departamento",
+					"item": [
+						{
+							"name": "Incluir diretoria com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"boardID\", pm.variables.replaceIn(JSON.parse(responseBody).newBoard._id))"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function inicialName() {\r",
+											"    var inicialName = [\"Inovação\", \"Desenvolvimento\", \"Operação\", \"Tecnologia\", \"Recurso\", \"Estratégia\", \"Finanças\", \"Relação\", \"Qualidade\", \"Comunicação\", \"Pesquisa\", \"Serviço\", \"Expansão\", \"Parceria\", \"Inclusão\", \"Ética\", \"Logística\", \"Planejamento\", \"Assunto\", \"Investimento\", \"Projeto\", \"Produto\", \"Sustentabilidade\", \"Operação\", \"Venda\", \"Transformação\", \"Relação\", \"Gestão\", \"Saúde\", \"Estratégia\", \"Segurança\", \"Desenvolvimento\", \"Aquisição\", \"Produção\", \"Tecnologia\", \"Governança\", \"Parceria\", \"Exportação\", \"Segurança\", \"Exploratório\", \"Desdobramento\", \"Estratégico\", \"Crescimento\", \"Pioneirismo\", \"Capacitação\", \"Integrativo\", \"Eficiência\", \"Proeminência\", \"Fusão\", \"Dinamismo\", \"Aprimoramento\", \"Otimização\", \"Visão\", \"Conquista\", \"Transformação\", \"Incorporação\", \"Perspectiva\", \"Fomento\", \"Início\", \"Reformulação\", \"Vanguarda\", \"Experimento\", \"Proatividade\", \"Revolução\", \"Desempenho\", \"Promoção\", \"Elevação\", \"Aceleração\", \"Prospecto\", \"Impulso\", \"Cibernético\", \"Ingresso\", \"Futurista\", \"Investimento\", \"Avanço\", \"Instituição\", \"Catalisador\", \"Vitalidade\", \"Envolvimento\", \"Sintonia\", \"Exploração\", \"Entendimento\"];\r",
+											"\r",
+											"    var randomItem = inicialName[Math.floor(Math.random() * inicialName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InicialName\", inicialName());\r",
+											"\r",
+											"\r",
+											"\r",
+											"function finalName() {\r",
+											"    var finalName = [\"Empresarial\", \"Sustentável\", \"Estratégica\", \"da Informação\", \"Humano Global\", \"de Marketing\", \"Internacional\", \"Governamental\", \"e Excelência\", \"Corporativo\", \"e Desenvolvimento\", \"ao Cliente\", \"Global de Mercado\", \"e Diversidade\", \"Integrada\", \"Estratégico\", \"Legal\", \"com Investidor\", \"Inovador\", \"Produto\", \"Sustentável\", \"Global\", \"de Venda\", \"Digital\", \"Internacional\", \"de Risco\", \"e Bem-Estar\", \"Ambiental\", \"Comunitário\", \"de Talento\", \"Social\", \"Regulatório\", \"de Produção\", \"Cultural\", \"Emergente\", \"Tecnológico\", \"de Exportação\", \"Filantrópico\", \"Regional\", \"de Preço\", \"em Serviço\", \"de Varejo\", \"de Fornecedor\", \"Empreendimento\", \"Informativo\", \"Capital Humano\", \"Desempenho\", \"Internacionalização\", \"Governança\", \"Jurídico\", \"Investidor\", \"Inovador\", \"Cultural\", \"Emergente\", \"Tecnológico\", \"Filantrópico\", \"Regional\", \"de Preço\", \"de Fornecimento\", \"de Comunicação\"];\r",
+											"\r",
+											"    var randomItem = finalName[Math.floor(Math.random() * finalName.length)];\r",
+											"\r",
+											"    return randomItem;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"FinalName\", finalName());\r",
+											"\r",
+											"pm.environment.set(\"BoardName\", pm.variables.get(\"InicialName\") + \" \" + pm.variables.get(\"FinalName\") + \" \" +  pm.variables.replaceIn('{{$randomAbbreviation}}') +  pm.variables.replaceIn('{{$randomAbbreviation}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"boardName\": \"{{BoardName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/board/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"board",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Incluir centro de custos com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"costCenterId\", pm.variables.replaceIn(JSON.parse(responseBody).newCostCenter._id));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function inicialName() {\r",
+											"    var inicialName = [\"Inovação\", \"Desenvolvimento\", \"Operação\", \"Tecnologia\", \"Recurso\", \"Estratégia\", \"Finanças\", \"Relação\", \"Qualidade\", \"Comunicação\", \"Pesquisa\", \"Serviço\", \"Expansão\", \"Parceria\", \"Inclusão\", \"Ética\", \"Logística\", \"Planejamento\", \"Assunto\", \"Investimento\", \"Projeto\", \"Produto\", \"Sustentabilidade\", \"Operação\", \"Venda\", \"Transformação\", \"Relação\", \"Gestão\", \"Saúde\", \"Estratégia\", \"Segurança\", \"Desenvolvimento\", \"Aquisição\", \"Produção\", \"Tecnologia\", \"Governança\", \"Parceria\", \"Exportação\", \"Segurança\", \"Exploratório\", \"Desdobramento\", \"Estratégico\", \"Crescimento\", \"Pioneirismo\", \"Capacitação\", \"Integrativo\", \"Eficiência\", \"Proeminência\", \"Fusão\", \"Dinamismo\", \"Aprimoramento\", \"Otimização\", \"Visão\", \"Conquista\", \"Transformação\", \"Incorporação\", \"Perspectiva\", \"Fomento\", \"Início\", \"Reformulação\", \"Vanguarda\", \"Experimento\", \"Proatividade\", \"Revolução\", \"Desempenho\", \"Promoção\", \"Elevação\", \"Aceleração\", \"Prospecto\", \"Impulso\", \"Cibernético\", \"Ingresso\", \"Futurista\", \"Investimento\", \"Avanço\", \"Instituição\", \"Catalisador\", \"Vitalidade\", \"Envolvimento\", \"Sintonia\", \"Exploração\", \"Entendimento\"];\r",
+											"\r",
+											"    var randomItem = inicialName[Math.floor(Math.random() * inicialName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"InicialName\", inicialName());\r",
+											"\r",
+											"\r",
+											"\r",
+											"function finalName() {\r",
+											"    var finalName = [\"Empresarial\", \"Sustentável\", \"Estratégica\", \"da Informação\", \"Humano Global\", \"de Marketing\", \"Internacional\", \"Governamental\", \"e Excelência\", \"Corporativo\", \"e Desenvolvimento\", \"ao Cliente\", \"Global de Mercado\", \"e Diversidade\", \"Integrada\", \"Estratégico\", \"Legal\", \"com Investidor\", \"Inovador\", \"Produto\", \"Sustentável\", \"Global\", \"de Venda\", \"Digital\", \"Internacional\", \"de Risco\", \"e Bem-Estar\", \"Ambiental\", \"Comunitário\", \"de Talento\", \"Social\", \"Regulatório\", \"de Produção\", \"Cultural\", \"Emergente\", \"Tecnológico\", \"de Exportação\", \"Filantrópico\", \"Regional\", \"de Preço\", \"em Serviço\", \"de Varejo\", \"de Fornecedor\", \"Empreendimento\", \"Informativo\", \"Capital Humano\", \"Desempenho\", \"Internacionalização\", \"Governança\", \"Jurídico\", \"Investidor\", \"Inovador\", \"Cultural\", \"Emergente\", \"Tecnológico\", \"Filantrópico\", \"Regional\", \"de Preço\", \"de Fornecimento\", \"de Comunicação\"];\r",
+											"\r",
+											"    var randomItem = finalName[Math.floor(Math.random() * finalName.length)];\r",
+											"\r",
+											"    return randomItem;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"FinalName\", finalName());\r",
+											"\r",
+											"pm.environment.set(\"CostCenterName\", pm.variables.get(\"InicialName\") + \" \" + pm.variables.get(\"FinalName\")+ \" \" +  pm.variables.replaceIn('{{$randomAbbreviation}}') +  pm.variables.replaceIn('{{$randomAbbreviation}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"costCenterName\": \"{{CostCenterName}}\",\r\n  \"boardId\": \"{{boardID}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/costCenter/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"costCenter",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Incluir departamento com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"departmentID\", pm.variables.replaceIn(JSON.parse(responseBody).newDepartment._id))\r",
+											"\r",
+											"pm.test(\"Checa mensagem de cadastro realizado\", function() {\r",
+											"    var responseBody = pm.response.json();\r",
+											"    pm.expect(responseBody.msg).to.include(\"Cadastro realizado com sucesso.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento contém apenas letras maiúsculas, minúsculas ou o caractere especial &\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    var regex = /^[a-zA-Z&\\s]+$/; \r",
+											"    pm.expect(departamento).to.match(regex);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validando o nome do departamento\", function () {\r",
+											"   pm.expect(JSON.parse(responseBody).newDepartment.departmentName).to.eql(pm.environment.get(\"departmentName\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento não está vazio\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    pm.expect(departamento).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento tem no máximo 50 caracteres\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    pm.expect(departamento).to.have.lengthOf.at.most(50);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function departmentName(){\r",
+											"    var departmentName = [\"Diversity and Inclusion\", \"Employee Relations\", \"Performance Management\", \"Compensation and Benefits\", \"Payroll\", \"Administration\", \"Internal Audit\", \"Corporate Governance\", \"Treasury\", \"Asset Management\", \"Brand Management\", \"Information Security\", \"Cybersecurity\", \"Data Analytics\", \"Market Research\", \"Legal Affairs\", \"Regulatory Affairs\", \"Emergency Management\", \"IT Support\", \"Customer Experience\", \"Social Media\", \"Content Creation\", \"Graphic Design\", \"User Experience\", \"Digital Marketing\", \"Brand Development\", \"Market Analysis\", \"Customer Success\", \"Business Intelligence\", \"Vendor Management\", \"Finance Operations\", \"Taxation\", \"Internal Communications\", \"Corporate Training\", \"Learning and Development\", \"Change Management\", \"Business Analysis\", \"Strategic Partnerships\", \"Community Engagement\", \"Strategic Initiatives\", \"Corporate Development\", \"Investor Relations\", \"Brand Strategy\", \"Event Management\", \"Product Management\", \"Quality Control\", \"Manufacturing\", \"Logistics\", \"Shipping and Receiving\", \"Warehouse Management\", \"Health and Safety\", \"Employee Wellness\", \"Employee Engagement\", \"Recruitment\", \"Staffing\", \"Benefits Administration\", \"Risk Assessment\", \"Legal Compliance\", \"Intellectual Property\", \"Contract Management\", \"Regulatory Compliance\", \"Ethics and Compliance\", \"Financial Planning\", \"Budgeting and Forecasting\", \"Business Planning\", \"Market Development\"];\r",
+											"    var randomItem = departmentName[Math.floor(Math.random() * departmentName.length)];\r",
+											"    return randomItem;\r",
+											"}\r",
+											"pm.environment.set(\"departmentRandonName\", departmentName());\r",
+											"\r",
+											"pm.environment.set(\"departmentName\", pm.environment.get(\"departmentRandonName\") + \" \" +  pm.variables.replaceIn('{{$randomAbbreviation}}') +  pm.variables.replaceIn('{{$randomAbbreviation}}'))\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentName}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Peesquisar departamento específico com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if response is an object\", function () {\r",
+											"    var responseList = pm.response.json();\r",
+											"    pm.expect(responseList).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"departmentNameDuplicated\", pm.variables.replaceIn(JSON.parse(responseBody).department.departmentName));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/department/{{departmentID}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										"{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Incluir departamento já cadastrado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 409\", function () {\r",
+											"    pm.response.to.have.status(409);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function departmentName(){\r",
+											"    var departmentName = [\"Diversity and Inclusion\", \"Employee Relations\", \"Performance Management\", \"Compensation and Benefits\", \"Payroll\", \"Administration\", \"Internal Audit\", \"Corporate Governance\", \"Treasury\", \"Asset Management\", \"Brand Management\", \"Information Security\", \"Cybersecurity\", \"Data Analytics\", \"Market Research\", \"Legal Affairs\", \"Regulatory Affairs\", \"Emergency Management\", \"IT Support\", \"Customer Experience\", \"Social Media\", \"Content Creation\", \"Graphic Design\", \"User Experience\", \"Digital Marketing\", \"Brand Development\", \"Market Analysis\", \"Customer Success\", \"Business Intelligence\", \"Vendor Management\", \"Finance Operations\", \"Taxation\", \"Internal Communications\", \"Corporate Training\", \"Learning and Development\", \"Change Management\", \"Business Analysis\", \"Strategic Partnerships\", \"Community Engagement\", \"Strategic Initiatives\", \"Corporate Development\", \"Investor Relations\", \"Brand Strategy\", \"Event Management\", \"Product Management\", \"Quality Control\", \"Manufacturing\", \"Logistics\", \"Shipping and Receiving\", \"Warehouse Management\", \"Health and Safety\", \"Employee Wellness\", \"Employee Engagement\", \"Recruitment\", \"Staffing\", \"Benefits Administration\", \"Risk Assessment\", \"Legal Compliance\", \"Intellectual Property\", \"Contract Management\", \"Regulatory Compliance\", \"Ethics and Compliance\", \"Financial Planning\", \"Budgeting and Forecasting\", \"Business Planning\", \"Market Development\"];\r",
+											"    var randomItem = departmentName[Math.floor(Math.random() * departmentName.length)];\r",
+											"    return randomItem;\r",
+											"}\r",
+											"pm.environment.set(\"departmentRandonName\", departmentName());\r",
+											"\r",
+											"pm.environment.set(\"departmentName\", pm.environment.get(\"departmentRandonName\") + \" \" +  pm.variables.replaceIn('{{$randomAbbreviation}}') +  pm.variables.replaceIn('{{$randomAbbreviation}}'))\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentNameDuplicated}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Incluir departamento somente com letras minúsculas",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"departmentID\", pm.variables.replaceIn(JSON.parse(responseBody).newDepartment._id))\r",
+											"\r",
+											"pm.test(\"Checa mensagem de cadastro realizado\", function() {\r",
+											"    var responseBody = pm.response.json();\r",
+											"    pm.expect(responseBody.msg).to.include(\"Cadastro realizado com sucesso.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento contém apenas letras minúsculas\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    var regex = /^[a-z&\\s]+$/; \r",
+											"    pm.expect(departamento).to.match(regex);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validando o nome do departamento\", function () {\r",
+											"   pm.expect(JSON.parse(responseBody).newDepartment.departmentName).to.eql(pm.environment.get(\"departmentNameLowercase\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento não está vazio\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    pm.expect(departamento).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento tem no máximo 50 caracteres\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    pm.expect(departamento).to.have.lengthOf.at.most(50);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function departmentName() {\r",
+											"    var departmentNames = [\"Diversity and Inclusion\", \"Employee Relations\", \"Performance Management\", \"Compensation and Benefits\", \"Payroll\", \"Administration\", \"Internal Audit\", \"Corporate Governance\", \"Treasury\", \"Asset Management\", \"Brand Management\", \"Information Security\", \"Cybersecurity\", \"Data Analytics\", \"Market Research\", \"Legal Affairs\", \"Regulatory Affairs\", \"Emergency Management\", \"IT Support\", \"Customer Experience\", \"Social Media\", \"Content Creation\", \"Graphic Design\", \"User Experience\", \"Digital Marketing\", \"Brand Development\", \"Market Analysis\", \"Customer Success\", \"Business Intelligence\", \"Vendor Management\", \"Finance Operations\", \"Taxation\", \"Internal Communications\", \"Corporate Training\", \"Learning and Development\", \"Change Management\", \"Business Analysis\", \"Strategic Partnerships\", \"Community Engagement\", \"Strategic Initiatives\", \"Corporate Development\", \"Investor Relations\", \"Brand Strategy\", \"Event Management\", \"Product Management\", \"Quality Control\", \"Manufacturing\", \"Logistics\", \"Shipping and Receiving\", \"Warehouse Management\", \"Health and Safety\", \"Employee Wellness\", \"Employee Engagement\", \"Recruitment\", \"Staffing\", \"Benefits Administration\", \"Risk Assessment\", \"Legal Compliance\", \"Intellectual Property\", \"Contract Management\", \"Regulatory Compliance\", \"Ethics and Compliance\", \"Financial Planning\", \"Budgeting and Forecasting\", \"Business Planning\", \"Market Development\"];\r",
+											"    var randomItem = departmentNames[Math.floor(Math.random() * departmentNames.length)];\r",
+											"    return randomItem.toLowerCase();\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"departmentRandomName\", departmentName());\r",
+											"\r",
+											"pm.environment.set(\"departmentNameLowercase\", pm.environment.get(\"departmentRandomName\") + \" \" +  pm.variables.replaceIn('{{$randomDomainWord}}') +  pm.variables.replaceIn('{{$randomDomainWord}}'));\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentNameLowercase}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Incluir departamento com números",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"A resposta deve conter um array 'error'\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('error').that.is.an('array');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"A resposta deve conter um array 'error'\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('error').that.is.an('array');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.environment.set(\"departmentNameNumbers\", pm.variables.replaceIn('{{$timestamp}}') +  pm.variables.replaceIn('{{$randomInt}}'));\r",
+											"console.log(\"departmentNameNumbers\")"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentNameNumbers}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Incluir departamento com 49 caracteres",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"departmentID\", pm.variables.replaceIn(JSON.parse(responseBody).newDepartment._id))\r",
+											"\r",
+											"pm.test(\"Checa mensagem de cadastro realizado\", function() {\r",
+											"    var responseBody = pm.response.json();\r",
+											"    pm.expect(responseBody.msg).to.include(\"Cadastro realizado com sucesso.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento contém apenas letras maiúsculas, minúsculas ou o caractere especial &\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    var regex = /^[a-zA-Z&\\s]+$/; \r",
+											"    pm.expect(departamento).to.match(regex);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validando o nome do departamento\", function () {\r",
+											"   pm.expect(JSON.parse(responseBody).newDepartment.departmentName).to.eql(pm.environment.get(\"randomName49Characters\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento não está vazio\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    pm.expect(departamento).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verifica se o campo Departamento tem no máximo 50 caracteres\", function () {\r",
+											"    var departamento = pm.response.json().newDepartment.departmentName;\r",
+											"    pm.expect(departamento).to.have.lengthOf.at.most(50);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function generateRandomName() {\r",
+											"    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&';\r",
+											"    var result = '';\r",
+											"    var charactersLength = characters.length;\r",
+											"    for (var i = 0; i < 49; i++) {\r",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));\r",
+											"    }\r",
+											"    return result;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"randomName49Characters\", generateRandomName());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{randomName49Characters}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Incluir departamento com 51 caracteres",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"A resposta deve conter um array 'error'\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('error').that.is.an('array');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function generateRandomName() {\r",
+											"    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&';\r",
+											"    var result = '';\r",
+											"    var charactersLength = characters.length;\r",
+											"    for (var i = 0; i < 51; i++) {\r",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));\r",
+											"    }\r",
+											"    return result;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"randomName51Characters\", generateRandomName());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{randomName51Characters}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Incluir departamento com o campo costCenterId em branco",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"A resposta deve conter um array 'error'\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('error').that.is.an('array');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function departmentName(){\r",
+											"    var departmentName = [\"Diversity and Inclusion\", \"Employee Relations\", \"Performance Management\", \"Compensation and Benefits\", \"Payroll\", \"Administration\", \"Internal Audit\", \"Corporate Governance\", \"Treasury\", \"Asset Management\", \"Brand Management\", \"Information Security\", \"Cybersecurity\", \"Data Analytics\", \"Market Research\", \"Legal Affairs\", \"Regulatory Affairs\", \"Emergency Management\", \"IT Support\", \"Customer Experience\", \"Social Media\", \"Content Creation\", \"Graphic Design\", \"User Experience\", \"Digital Marketing\", \"Brand Development\", \"Market Analysis\", \"Customer Success\", \"Business Intelligence\", \"Vendor Management\", \"Finance Operations\", \"Taxation\", \"Internal Communications\", \"Corporate Training\", \"Learning and Development\", \"Change Management\", \"Business Analysis\", \"Strategic Partnerships\", \"Community Engagement\", \"Strategic Initiatives\", \"Corporate Development\", \"Investor Relations\", \"Brand Strategy\", \"Event Management\", \"Product Management\", \"Quality Control\", \"Manufacturing\", \"Logistics\", \"Shipping and Receiving\", \"Warehouse Management\", \"Health and Safety\", \"Employee Wellness\", \"Employee Engagement\", \"Recruitment\", \"Staffing\", \"Benefits Administration\", \"Risk Assessment\", \"Legal Compliance\", \"Intellectual Property\", \"Contract Management\", \"Regulatory Compliance\", \"Ethics and Compliance\", \"Financial Planning\", \"Budgeting and Forecasting\", \"Business Planning\", \"Market Development\"];\r",
+											"    var randomItem = departmentName[Math.floor(Math.random() * departmentName.length)];\r",
+											"    return randomItem;\r",
+											"}\r",
+											"pm.environment.set(\"departmentRandonName\", departmentName());\r",
+											"\r",
+											"pm.environment.set(\"departmentName\", pm.environment.get(\"departmentRandonName\") + \" \" +  pm.variables.replaceIn('{{$randomAbbreviation}}') +  pm.variables.replaceIn('{{$randomAbbreviation}}'))\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentName}}\",\r\n  \"costCenterId\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "apikey",
+						"apikey": [
+							{
+								"key": "in",
+								"value": "query",
+								"type": "string"
+							},
+							{
+								"key": "value",
+								"value": "{{TokenAdmin}}",
+								"type": "string"
+							},
+							{
+								"key": "key",
+								"value": "token",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "in",
+						"value": "query",
+						"type": "string"
+					},
+					{
+						"key": "value",
+						"value": "{{TokenAdmin}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "token",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Editar departamento",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify token is true\", function () {\r",
+											"   pm.expect(JSON.parse(responseBody)).to.have.property(\"token\");\r",
+											"});\r",
+											"\r",
+											"pm.globals.set(\"TokenAdmin\", JSON.parse(responseBody).token)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"mail\": \"{{EmailAdmin}}\",\r\n  \"password\": \"{{PasswordAdmin}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validar Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/validateToken",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"validateToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Editar departamento",
+					"item": [
+						{
+							"name": "Editar departamento com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Cadastro atualizado com sucesso.\", function() {\r",
+											"    pm.expect(pm.response.json().msg).to.eql(\"Cadastro atualizado com sucesso.\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function departmentNameAtualizado(){\r",
+											"    var departmentNameAtualizado = [\"Diversity and Inclusion\", \"Employee Relations\", \"Performance Management\", \"Compensation and Benefits\", \"Payroll\", \"Administration\", \"Internal Audit\", \"Corporate Governance\", \"Treasury\", \"Asset Management\", \"Brand Management\", \"Information Security\", \"Cybersecurity\", \"Data Analytics\", \"Market Research\", \"Legal Affairs\", \"Regulatory Affairs\", \"Emergency Management\", \"IT Support\", \"Customer Experience\", \"Social Media\", \"Content Creation\", \"Graphic Design\", \"User Experience\", \"Digital Marketing\", \"Brand Development\", \"Market Analysis\", \"Customer Success\", \"Business Intelligence\", \"Vendor Management\", \"Finance Operations\", \"Taxation\", \"Internal Communications\", \"Corporate Training\", \"Learning and Development\", \"Change Management\", \"Business Analysis\", \"Strategic Partnerships\", \"Community Engagement\", \"Strategic Initiatives\", \"Corporate Development\", \"Investor Relations\", \"Brand Strategy\", \"Event Management\", \"Product Management\", \"Quality Control\", \"Manufacturing\", \"Logistics\", \"Shipping and Receiving\", \"Warehouse Management\", \"Health and Safety\", \"Employee Wellness\", \"Employee Engagement\", \"Recruitment\", \"Staffing\", \"Benefits Administration\", \"Risk Assessment\", \"Legal Compliance\", \"Intellectual Property\", \"Contract Management\", \"Regulatory Compliance\", \"Ethics and Compliance\", \"Financial Planning\", \"Budgeting and Forecasting\", \"Business Planning\", \"Market Development\"];\r",
+											"    var randomItem = departmentNameAtualizado[Math.floor(Math.random() * departmentNameAtualizado.length)];\r",
+											"    return randomItem;\r",
+											"}\r",
+											"pm.environment.set(\"departmentRandonName\", departmentNameAtualizado());\r",
+											"\r",
+											"pm.environment.set(\"departmentNameAtualizado\", pm.environment.get(\"departmentRandonNameAtualizado\") + \" \" +  pm.variables.replaceIn('{{$randomAbbreviation}}') +  pm.variables.replaceIn('{{$randomAbbreviation}}'))\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentNameAtualizado}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/{{departmentID}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										"{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar departamento com campo departamento vazio",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"A resposta deve conter um array 'error'\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('error').that.is.an('array');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/{{departmentID}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										"{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Listar departamento",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify token is true\", function () {\r",
+											"   pm.expect(JSON.parse(responseBody)).to.have.property(\"token\");\r",
+											"});\r",
+											"\r",
+											"pm.globals.set(\"TokenAdmin\", JSON.parse(responseBody).token)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"mail\": \"{{EmailAdmin}}\",\r\n  \"password\": \"{{PasswordAdmin}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validar Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/validateToken",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"validateToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Listar departamento",
+					"item": [
+						{
+							"name": "Listar departamento com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if response is a list\", function () {\r",
+											"    var responseList = pm.response.json();\r",
+											"    pm.expect(responseList).to.be.an('array');\r",
+											"});\r",
+											"\r",
+											"//função para verificar ordem alfabética\r",
+											"let responseItems = pm.response.json();\r",
+											"\r",
+											"function isFullnameAlphabetical(array) {\r",
+											"    const fullnames = array.map(item => item.fullname);\r",
+											"\r",
+											"    return JSON.stringify(fullnames) === JSON.stringify(fullnames.slice().sort());\r",
+											"}\r",
+											"\r",
+											"tests[\"Objetos estão em ordem alfabética\"] = isFullnameAlphabetical(responseItems);\r",
+											"\r",
+											"pm.test(\"Response é uma array de objetos\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.an('array')\r",
+											"});\r",
+											"\r",
+											"let boards = pm.response.json();\r",
+											"pm.test(\"Response não está vazio\", function() {\r",
+											"    pm.expect(boards.length > 0).to.be.true;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/department/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar centro de custos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/costcenter/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"costcenter",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar contagem de centro de custos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/costcenter/count",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"costcenter",
+										"count"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar contagem de departamentos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/department/count",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										"count"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Inativar departamento",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify token is true\", function () {\r",
+											"   pm.expect(JSON.parse(responseBody)).to.have.property(\"token\");\r",
+											"});\r",
+											"\r",
+											"pm.globals.set(\"TokenAdmin\", JSON.parse(responseBody).token)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"mail\": \"{{EmailAdmin}}\",\r\n  \"password\": \"{{PasswordAdmin}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validar Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/validateToken",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"validateToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Inativar departamento",
+					"item": [
+						{
+							"name": "Alterar status",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"status\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/status/{{departmentID}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										"status",
+										"{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Peesquisar departamento específico com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if response is an object\", function () {\r",
+											"    var responseList = pm.response.json();\r",
+											"    pm.expect(responseList).to.be.an('object');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/department/{{departmentID}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										"{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar contagem de departamentos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/department/count",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										"count"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
