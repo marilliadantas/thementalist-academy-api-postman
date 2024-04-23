@@ -90,8 +90,10 @@ Se você optou por rodar os testes com o report htmlextra, você gerou um arquiv
         <a href="https://www.linkedin.com/in/wladimirllima/" target="_blank"><img src="https://avatars.githubusercontent.com/u/81488080?v=4" width="100px;" alt="Wladimir Lima"/></a><br />
         <sub><b><a href="https://github.com/wladimirlima" target="_blank">Wladimir Lima</a></b></sub><br />
       </td>
+      <td align="center" valign="top" width="14.28%">
+        <a href="https://www.linkedin.com/in/angelicasa/" target="_blank"><img src="https://avatars.githubusercontent.com/u/107443453?v=4" width="100px;" alt="Angélica Almeida"/></a><br />
+        <sub><b><a href="https://github.com/angelicasa" target="_blank">Angélica Almeida</a></b></sub><br />
+      </td>
     </tr>
   </tbody>
 </table>
-
-
