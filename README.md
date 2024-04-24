@@ -1,23 +1,23 @@
-<h1 align="center"> Automação API com Postman - Squad The Mentalist 🧠</h1>
+<h1 align="center"> 🤖 Automação API com Postman - Squad The Mentalist 🧠</h1>
 
 ![STATUS](https://img.shields.io/static/v1?label=STATUS&message=%20EM%20CONSTRU%C3%87%C3%83O&color=yellow&style=for-the-badge)
 
 
 
 ## 💬 Sobre o projeto
-<p> Esse projeto foi proposto pelo Academy da instuituição Qa.Coders. O nosso objetivo nesse projeto, é encontrar melhorias e inconsitências e além de tudo, aprender novas tecnologias e trabalhar em equipe. Para documentar o projeto e executar os testes nós utilizamos um swagger e as  PBIs disponibilizadas pelos Qa.Coders durante as 6 Sprints do projeto.
+<p> Esse projeto foi proposto pelo Academy da instuituição Qa.Coders. O nosso objetivo nesse projeto, é encontrar melhorias e inconsistências e além de tudo, aprender novas tecnologias e trabalhar em equipe. Para documentar o projeto e executar os testes nós utilizamos um swagger e as  PBIs disponibilizadas pelos Qa.Coders durante as 6 Sprints do projeto.
 
-## Tecnologias utilizadas
+## 💻 Tecnologias utilizadas
 
-- Postman web version
+- Postman (Web version)
 
-- node v20.11.0
+- Node (v20.11.0)
 
-- newman v6.1.1
+- Newman (v6.1.1)
 
-- newman reporter-htmlextra
+- Newman reporter-htmlextra
 
-## Como instalar o ambiente
+##  👩🏻‍💻​ Como instalar o ambiente
 
 - Primeiro: instale o node em seu computador [baixe aqui](https://nodejs.org/en/download)
 
@@ -33,10 +33,14 @@ npm install -g newman
 ```bash
 npm install -g newman-reporter-htmlextra
 ```
+### 📁 Clonando o projeto
+```bash
+https://github.com/marilliadantas/thementalist-academy-postman
+```
 
-## Como rodar os testes
+## ✔️ Como rodar os testes
 
-### Pelo Postman web ou desktop
+##### Pelo Postman web ou desktop
 
 - Importe a collection e as variáveis de ambiente e globals
 
@@ -46,23 +50,23 @@ npm install -g newman-reporter-htmlextra
 newman run nome_da_collection.json -e env-automacao.json -g env-global.json -r cli
   ```
 
-## Execução com Report html-extra (opcional)
+## ​📈​ Execução com Report html-extra (opcional)
 
 ```bash
 newman run nome_da_collection.json -e env-automacao.json -g env-global.json -r htmlextra
 ```
 
-### Obs: Lembre-se de substituir [nome_da_collection.json] pelo nome da collection que você deseja rodar. 
+##### ​⚠️​ Obs: Lembre-se de substituir [nome_da_collection.json] pelo nome da collection que você deseja rodar. 
 Neste projeto temos as seguintes collections: 
 - auth_collection.json
 - department_collection.json
 - user_collection.json
 
-### Report
+### 📃 Report
 
 Se você optou por rodar os testes com o report htmlextra, você gerou um arquivo html com o resultado dos teses e para verificar as validações você pode abrir a pasta **newman** que foi criada no local em que os arquivos de collection e environment se encontram.
 
-# 👥 Autores do projeto
+## 👥 Autores do projeto
 <table>
   <tbody>
     <tr>
