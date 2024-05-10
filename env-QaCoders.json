@@ -1,5 +1,5 @@
 {
-	"id": "1eabbf37-827d-455f-9545-c1707f614a2b",
+	"id": "cdf15540-c34b-475f-b8d7-311a89f36257",
 	"name": "Qa.Coders",
 	"values": [
 		{
@@ -211,9 +211,45 @@
 			"value": "",
 			"type": "any",
 			"enabled": true
+		},
+		{
+			"key": "Valor",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "InvalidID",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "departmentNameAtualizado",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "DepartmentEdit",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "CostCenterInvalidID",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "DepartmentOK",
+			"value": "",
+			"type": "any",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2024-04-20T21:11:02.710Z",
-	"_postman_exported_using": "Postman/10.24.22"
+	"_postman_exported_at": "2024-05-10T17:53:48.005Z",
+	"_postman_exported_using": "Postman/11.0.12"
 }

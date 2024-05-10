@@ -1,12 +1,197 @@
 {
 	"info": {
-		"_postman_id": "70a61bea-05a4-4a9e-88f4-b96a7239d42c",
+		"_postman_id": "b6c59394-d4bb-45a9-bd21-63a093e32f72",
 		"name": "department",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30574089",
-		"_collection_link": "https://blue-star-904829.postman.co/workspace/The-Mentalist~6061017f-b4a8-42b7-8c72-fa234aebc7f6/collection/30574089-70a61bea-05a4-4a9e-88f4-b96a7239d42c?action=share&source=collection_link&creator=30574089"
+		"_exporter_id": "30651165"
 	},
 	"item": [
+		{
+			"name": "PesquisarDepartamento",
+			"item": [
+				{
+					"name": "ConsultaTodosRegistros",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Gravar id para consulta com ID\r",
+									"var response = JSON.parse(responseBody);\r",
+									"var indice = Math.floor(Math.random()* response.length);\r",
+									"var id = response[indice]._id;\r",
+									"pm.environment.set(\"departmentID\", id);\r",
+									"\r",
+									"//Verificar Status Code\r",
+									"pm.test(\"Status code 200\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"//Verificar se esta retornando um lista com dados\r",
+									"pm.test(\"Verificar se o responseBody é um array preenchido\", function(){\r",
+									"    pm.expect(pm.response.json()).to.be.an('array').that.is.not.empty;\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{TokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{Department}}",
+							"host": [
+								"{{url}}{{Department}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ConsultaRegistrosID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Veriricar Status Code\r",
+									"pm.test(\"Status code 200\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"//Verificar se esta retornando um lista com dados\r",
+									"pm.test(\"Verificar se o responseBody esta preenchido\", function(){\r",
+									"    pm.expect(pm.response.json()).that.is.not.empty;\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{TokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{Department}}{{departmentID}}",
+							"host": [
+								"{{url}}{{Department}}{{departmentID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ConsultaRegistrosIDInvalido",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var InvalidID = pm.variables.replaceIn('{{$randomBankAccountIban}}');\r",
+									"\r",
+									"pm.environment.set(\"InvalidID\", InvalidID);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Invalid ID\", function(){\r",
+									"        pm.expect(pm.response.json().error).to.match(/Cast to ObjectId failed for value/);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status Code 500\", function(){\r",
+									"    pm.response.to.have.status(500);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{TokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{Department}}{{InvalidID}}",
+							"host": [
+								"{{url}}{{Department}}{{InvalidID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Incluir departamento",
 			"item": [
@@ -938,270 +1123,6 @@
 			]
 		},
 		{
-			"name": "Editar departamento",
-			"item": [
-				{
-					"name": "Auth",
-					"item": [
-						{
-							"name": "Login Admin",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Verify token is true\", function () {\r",
-											"   pm.expect(JSON.parse(responseBody)).to.have.property(\"token\");\r",
-											"});\r",
-											"\r",
-											"pm.globals.set(\"TokenAdmin\", JSON.parse(responseBody).token)"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"mail\": \"{{EmailAdmin}}\",\r\n  \"password\": \"{{PasswordAdmin}}\"\r\n}\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/login",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"login"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Validar Token",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "in",
-											"value": "header",
-											"type": "string"
-										},
-										{
-											"key": "value",
-											"value": "{{TokenAdmin}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{url}}/api/validateToken",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"validateToken"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Editar departamento",
-					"item": [
-						{
-							"name": "Editar departamento com sucesso",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"\r",
-											"pm.test(\"Cadastro atualizado com sucesso.\", function() {\r",
-											"    pm.expect(pm.response.json().msg).to.eql(\"Cadastro atualizado com sucesso.\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"function departmentNameAtualizado(){\r",
-											"    var departmentNameAtualizado = [\"Diversity and Inclusion\", \"Employee Relations\", \"Performance Management\", \"Compensation and Benefits\", \"Payroll\", \"Administration\", \"Internal Audit\", \"Corporate Governance\", \"Treasury\", \"Asset Management\", \"Brand Management\", \"Information Security\", \"Cybersecurity\", \"Data Analytics\", \"Market Research\", \"Legal Affairs\", \"Regulatory Affairs\", \"Emergency Management\", \"IT Support\", \"Customer Experience\", \"Social Media\", \"Content Creation\", \"Graphic Design\", \"User Experience\", \"Digital Marketing\", \"Brand Development\", \"Market Analysis\", \"Customer Success\", \"Business Intelligence\", \"Vendor Management\", \"Finance Operations\", \"Taxation\", \"Internal Communications\", \"Corporate Training\", \"Learning and Development\", \"Change Management\", \"Business Analysis\", \"Strategic Partnerships\", \"Community Engagement\", \"Strategic Initiatives\", \"Corporate Development\", \"Investor Relations\", \"Brand Strategy\", \"Event Management\", \"Product Management\", \"Quality Control\", \"Manufacturing\", \"Logistics\", \"Shipping and Receiving\", \"Warehouse Management\", \"Health and Safety\", \"Employee Wellness\", \"Employee Engagement\", \"Recruitment\", \"Staffing\", \"Benefits Administration\", \"Risk Assessment\", \"Legal Compliance\", \"Intellectual Property\", \"Contract Management\", \"Regulatory Compliance\", \"Ethics and Compliance\", \"Financial Planning\", \"Budgeting and Forecasting\", \"Business Planning\", \"Market Development\"];\r",
-											"    var randomItem = departmentNameAtualizado[Math.floor(Math.random() * departmentNameAtualizado.length)];\r",
-											"    return randomItem;\r",
-											"}\r",
-											"pm.environment.set(\"departmentRandonName\", departmentNameAtualizado());\r",
-											"\r",
-											"pm.environment.set(\"departmentNameAtualizado\", pm.environment.get(\"departmentRandonNameAtualizado\") + \" \" +  pm.variables.replaceIn('{{$randomAbbreviation}}') +  pm.variables.replaceIn('{{$randomAbbreviation}}'))\r",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "{{TokenAdmin}}",
-											"type": "string"
-										},
-										{
-											"key": "in",
-											"value": "query",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "token",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"departmentName\": \"{{departmentNameAtualizado}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/department/{{departmentID}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"department",
-										"{{departmentID}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Editar departamento com campo departamento vazio",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"A resposta deve conter um array 'error'\", function () {\r",
-											"    pm.expect(pm.response.json()).to.have.property('error').that.is.an('array');\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "{{TokenAdmin}}",
-											"type": "string"
-										},
-										{
-											"key": "in",
-											"value": "query",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "token",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"departmentName\": \"\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/department/{{departmentID}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"department",
-										"{{departmentID}}"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Listar departamento",
 			"item": [
 				{
@@ -1577,6 +1498,680 @@
 			]
 		},
 		{
+			"name": "Editar departamento",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify token is true\", function () {\r",
+											"   pm.expect(JSON.parse(responseBody)).to.have.property(\"token\");\r",
+											"});\r",
+											"\r",
+											"pm.globals.set(\"TokenAdmin\", JSON.parse(responseBody).token)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"mail\": \"{{EmailAdmin}}\",\r\n  \"password\": \"{{PasswordAdmin}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validar Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/validateToken",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"validateToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Editar departamento",
+					"item": [
+						{
+							"name": "CriarBoard",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Lista com varios Boards\r",
+											"var Boards = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"]; \r",
+											"\r",
+											"//Selecionar numero randomico\r",
+											"var RandomId = [Math.floor(Math.random()*Boards.length)];\r",
+											"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+											"var RandomBoard = Boards[RandomId];\r",
+											"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+											"var BoardName = (RandomBoard +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+											"//Salvar o Board gerado em uma variavel\r",
+											"pm.environment.set(\"BoardName\",BoardName);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code deve ser 201\", function(){\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Retorno\", function(){\r",
+											"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso!\");\r",
+											"})\r",
+											"\r",
+											"pm.environment.set(\"boardID\", pm.response.json().newBoard._id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"boardName\": \"{{BoardName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{Board}}",
+									"host": [
+										"{{url}}{{Board}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CriarCostCenter",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code deve ser 201\", function(){\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Retorno\", function(){\r",
+											"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso.\");\r",
+											"})\r",
+											"\r",
+											"pm.environment.set(\"costCenterId\", pm.response.json().newCostCenter._id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var CostCenter = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"];\r",
+											"\r",
+											"//Selecionar numero randomico\r",
+											"var RandomId = [Math.floor(Math.random()*CostCenter.length)];\r",
+											"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+											"var RandomCC = CostCenter[RandomId];\r",
+											"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+											"var CCName = (\"CC\"+ \" \" + RandomCC +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+											"//Salvar o CoastCenter gerado em uma variavel\r",
+											"pm.environment.set(\"CostCenterName\",CCName);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"costCenterName\": \"{{CostCenterName}}\",\r\n  \"boardId\": \"{{boardID}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{CostCenter}}",
+									"host": [
+										"{{url}}{{CostCenter}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CriarDepartment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var Department = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"];\r",
+											"\r",
+											"//Selecionar numero randomico\r",
+											"var RandomId = [Math.floor(Math.random()*Department.length)];\r",
+											"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+											"var RandomDep = Department[RandomId];\r",
+											"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+											"var DepName = (RandomDep +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+											"//Salvar o Department gerado em uma variavel\r",
+											"pm.environment.set(\"departmentName\",DepName);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code deve ser 201\", function(){\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Retorno\", function(){\r",
+											"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso.\");\r",
+											"})\r",
+											"\r",
+											"// pm.environment.set(\"departmentID\", JSON.parse(responseBody).newDepartment._id);\r",
+											"\r",
+											"pm.environment.set(\"departmentID\", pm.response.json().newDepartment._id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentName}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{Department}}",
+									"host": [
+										"{{url}}{{Department}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar departamento com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Cadastro atualizado com sucesso.\", function() {\r",
+											"    pm.expect(pm.response.json().msg).to.eql(\"Cadastro atualizado com sucesso.\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function departmentNameAtualizado(){\r",
+											"    var departmentNameAtualizado = [\"Diversity and Inclusion\", \"Employee Relations\", \"Performance Management\", \"Compensation and Benefits\", \"Payroll\", \"Administration\", \"Internal Audit\", \"Corporate Governance\", \"Treasury\", \"Asset Management\", \"Brand Management\", \"Information Security\", \"Cybersecurity\", \"Data Analytics\", \"Market Research\", \"Legal Affairs\", \"Regulatory Affairs\", \"Emergency Management\", \"IT Support\", \"Customer Experience\", \"Social Media\", \"Content Creation\", \"Graphic Design\", \"User Experience\", \"Digital Marketing\", \"Brand Development\", \"Market Analysis\", \"Customer Success\", \"Business Intelligence\", \"Vendor Management\", \"Finance Operations\", \"Taxation\", \"Internal Communications\", \"Corporate Training\", \"Learning and Development\", \"Change Management\", \"Business Analysis\", \"Strategic Partnerships\", \"Community Engagement\", \"Strategic Initiatives\", \"Corporate Development\", \"Investor Relations\", \"Brand Strategy\", \"Event Management\", \"Product Management\", \"Quality Control\", \"Manufacturing\", \"Logistics\", \"Shipping and Receiving\", \"Warehouse Management\", \"Health and Safety\", \"Employee Wellness\", \"Employee Engagement\", \"Recruitment\", \"Staffing\", \"Benefits Administration\", \"Risk Assessment\", \"Legal Compliance\", \"Intellectual Property\", \"Contract Management\", \"Regulatory Compliance\", \"Ethics and Compliance\", \"Financial Planning\", \"Budgeting and Forecasting\", \"Business Planning\", \"Market Development\"];\r",
+											"    var randomItem = departmentNameAtualizado[Math.floor(Math.random() * departmentNameAtualizado.length)];\r",
+											"    return randomItem;\r",
+											"}\r",
+											"pm.environment.set(\"departmentRandonName\", departmentNameAtualizado());\r",
+											"\r",
+											"pm.environment.set(\"departmentNameAtualizado\", pm.environment.get(\"departmentRandonNameAtualizado\") + \" \" +  pm.variables.replaceIn('{{$randomAbbreviation}}') +  pm.variables.replaceIn('{{$randomAbbreviation}}'))\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "query",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "token",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentNameAtualizado}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/department/{{departmentID}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"department",
+										"{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DepartmentEmBranco",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code 400\", function(){\r",
+											"    pm.response.to.have.status(400)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Validação\", function(){\r",
+											"    pm.expect(pm.response.json().error[0]).to.eql(\"O campo Departamento é obrigatório.\")\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{Department}}{{departmentID}}",
+									"host": [
+										"{{url}}{{Department}}{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DepartmentValidoCostCenterEmBranco",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var DepartmentName= pm.environment.get(\"departmentName\");\r",
+											"\r",
+											"var DepartmentEdit = (DepartmentName + \"Edit\");\r",
+											"\r",
+											"pm.environment.set(\"DepartmentEdit\", DepartmentEdit );"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code deve ser 400\", function(){\r",
+											"    pm.response.to.have.status(400)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Mensagem de Erro\", function(){\r",
+											"//     pm.expect(pm.response.json().error[0]).to.eql(\"O campo 'ID do centro de custos' é obrigatório.\")\r",
+											"// })"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{DepartmentEdit}}\",\r\n  \"costCenterId\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{Department}}{{departmentID}}",
+									"host": [
+										"{{url}}{{Department}}{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DepartmentValidoCostCenterInvalido",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var DepartmentName = pm.environment.get(\"departmentName\");\r",
+											"var DepartmentOk = (DepartmentName + \"OK\");\r",
+											"pm.environment.set(\"DepartmentOK\", DepartmentOk );\r",
+											"\r",
+											"var CostCenterInvalidID = pm.variables.replaceIn('{{$randomBankAccountIban}}');\r",
+											"\r",
+											"pm.environment.set(\"CostCenterInvalidID\", CostCenterInvalidID);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code 500\", function(){\r",
+											"    pm.response.to.have.status(500)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Validação\", function(){\r",
+											"    pm.expect(pm.response.json().error).to.match(/Cast to ObjectId failed for value/)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{DepartmentOK}}\",\r\n  \"costCenterId\": \"{{CostCenterInvalidId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{Department}}{{departmentID}}",
+									"host": [
+										"{{url}}{{Department}}{{departmentID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Inativar departamento",
 			"item": [
 				{
@@ -1686,24 +2281,1152 @@
 					"name": "Inativar departamento",
 					"item": [
 						{
-							"name": "Alterar status",
+							"name": "InativarDepartamentoComRegistroAtivo",
+							"item": [
+								{
+									"name": "CriarBoard",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"//Lista com varios Boards\r",
+													"var Boards = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"]; \r",
+													"\r",
+													"//Selecionar numero randomico\r",
+													"var RandomId = [Math.floor(Math.random()*Boards.length)];\r",
+													"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+													"var RandomBoard = Boards[RandomId];\r",
+													"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+													"var BoardName = (RandomBoard +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+													"//Salvar o Board gerado em uma variavel\r",
+													"pm.environment.set(\"BoardName\",BoardName);\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code deve ser 201\", function(){\r",
+													"    pm.response.to.have.status(201);\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Mensagem de Retorno\", function(){\r",
+													"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso!\");\r",
+													"})\r",
+													"\r",
+													"pm.environment.set(\"boardID\", pm.response.json().newBoard._id);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"boardName\": \"{{BoardName}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{Board}}",
+											"host": [
+												"{{url}}{{Board}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PesquisarBoarID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Retorno da pesquia\", function(){\r",
+													"    pm.expect(pm.response.json()).to.be.not.empty\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Retornou cadastro correto\", function(){\r",
+													"    pm.expect(pm.response.json().board._id).to.be.eql(pm.environment.get(\"boardID\"))\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}{{Board}}{{boardID}}",
+											"host": [
+												"{{url}}{{Board}}{{boardID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CriarCostCenter",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code deve ser 201\", function(){\r",
+													"    pm.response.to.have.status(201);\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Mensagem de Retorno\", function(){\r",
+													"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso.\");\r",
+													"})\r",
+													"\r",
+													"pm.environment.set(\"costCenterId\", pm.response.json().newCostCenter._id);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var CostCenter = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"];\r",
+													"\r",
+													"//Selecionar numero randomico\r",
+													"var RandomId = [Math.floor(Math.random()*CostCenter.length)];\r",
+													"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+													"var RandomCC = CostCenter[RandomId];\r",
+													"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+													"var CCName = (\"CC\"+ \" \" + RandomCC +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+													"//Salvar o CoastCenter gerado em uma variavel\r",
+													"pm.environment.set(\"CostCenterName\",CCName);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"costCenterName\": \"{{CostCenterName}}\",\r\n  \"boardId\": \"{{boardID}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{CostCenter}}",
+											"host": [
+												"{{url}}{{CostCenter}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PesquisarCostCenterID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Retorno da pesquia\", function(){\r",
+													"    pm.expect(pm.response.json()).to.be.not.empty\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Retornou cadastro correto\", function(){\r",
+													"    pm.expect(pm.response.json().costCenter._id).to.be.eql(pm.environment.get(\"costCenterId\"))\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}{{CostCenter}}{{costCenterId}}",
+											"host": [
+												"{{url}}{{CostCenter}}{{costCenterId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CriarDepartment",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var Department = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"];\r",
+													"\r",
+													"//Selecionar numero randomico\r",
+													"var RandomId = [Math.floor(Math.random()*Department.length)];\r",
+													"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+													"var RandomDep = Department[RandomId];\r",
+													"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+													"var DepName = (RandomDep +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+													"//Salvar o Department gerado em uma variavel\r",
+													"pm.environment.set(\"departmentName\",DepName);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code deve ser 201\", function(){\r",
+													"    pm.response.to.have.status(201);\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Mensagem de Retorno\", function(){\r",
+													"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso.\");\r",
+													"})\r",
+													"\r",
+													"// pm.environment.set(\"departmentID\", JSON.parse(responseBody).newDepartment._id);\r",
+													"\r",
+													"pm.environment.set(\"departmentID\", pm.response.json().newDepartment._id);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"departmentName\": \"{{departmentName}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{Department}}",
+											"host": [
+												"{{url}}{{Department}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PesquisarDepartamentoID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Retorno da pesquia\", function(){\r",
+													"    pm.expect(pm.response.json()).to.be.not.empty\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Retornou cadastro correto\", function(){\r",
+													"    pm.expect(pm.response.json().department._id).to.be.eql(pm.environment.get(\"departmentID\"))\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}{{Department}}{{departmentID}}",
+											"host": [
+												"{{url}}{{Department}}{{departmentID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InativarComRegistroAssociado",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Nao permitir alteração\", function(){\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([400,403])\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Mensagem de Validação\", function(){\r",
+													"    pm.expect(pm.response.json().msg).to.eql(\"Não é possível inativar o Departamento. Esse Departamentos faz parte de um cadastro ativo.\")\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{DepartmentStatus}}{{departmentID}}",
+											"host": [
+												"{{url}}{{DepartmentStatus}}{{departmentID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "InativarDepartamentoComRegistroInativo",
+							"item": [
+								{
+									"name": "CriarBoard",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"//Lista com varios Boards\r",
+													"var Boards = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"]; \r",
+													"\r",
+													"//Selecionar numero randomico\r",
+													"var RandomId = [Math.floor(Math.random()*Boards.length)];\r",
+													"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+													"var RandomBoard = Boards[RandomId];\r",
+													"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+													"var BoardName = (RandomBoard +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+													"//Salvar o Board gerado em uma variavel\r",
+													"pm.environment.set(\"BoardName\",BoardName);\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code deve ser 201\", function(){\r",
+													"    pm.response.to.have.status(201);\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Mensagem de Retorno\", function(){\r",
+													"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso!\");\r",
+													"})\r",
+													"\r",
+													"pm.environment.set(\"boardID\", pm.response.json().newBoard._id);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"boardName\": \"{{BoardName}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{Board}}",
+											"host": [
+												"{{url}}{{Board}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PesquisarBoarID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Retorno da pesquia\", function(){\r",
+													"    pm.expect(pm.response.json()).to.be.not.empty\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Retornou cadastro correto\", function(){\r",
+													"    pm.expect(pm.response.json().board._id).to.be.eql(pm.environment.get(\"boardID\"))\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}{{Board}}{{boardID}}",
+											"host": [
+												"{{url}}{{Board}}{{boardID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InativarBoard",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code\", function(){\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Inativar com sucesso\", function(){\r",
+													"    pm.expect(pm.response.json().msg).to.be.eql(\"Cadastro atualizado com sucesso.\")\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Status tem que ser 'false'\", function(){\r",
+													"    pm.expect(pm.response.json().updatedBoard.status).to.false\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"boardName\": \"{{BoardName}}\",\r\n  \"status\": \"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{Board}}{{boardID}}",
+											"host": [
+												"{{url}}{{Board}}{{boardID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CriarCostCenter",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code deve ser 201\", function(){\r",
+													"    pm.response.to.have.status(201);\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Mensagem de Retorno\", function(){\r",
+													"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso.\");\r",
+													"})\r",
+													"\r",
+													"pm.environment.set(\"costCenterId\", pm.response.json().newCostCenter._id);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var CostCenter = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"];\r",
+													"\r",
+													"//Selecionar numero randomico\r",
+													"var RandomId = [Math.floor(Math.random()*CostCenter.length)];\r",
+													"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+													"var RandomCC = CostCenter[RandomId];\r",
+													"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+													"var CCName = (\"CC\"+ \" \" + RandomCC +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+													"//Salvar o CoastCenter gerado em uma variavel\r",
+													"pm.environment.set(\"CostCenterName\",CCName);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"costCenterName\": \"{{CostCenterName}}\",\r\n  \"boardId\": \"{{boardID}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{CostCenter}}",
+											"host": [
+												"{{url}}{{CostCenter}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PesquisarCostCenterID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Retorno da pesquia\", function(){\r",
+													"    pm.expect(pm.response.json()).to.be.not.empty\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Retornou cadastro correto\", function(){\r",
+													"    pm.expect(pm.response.json().costCenter._id).to.be.eql(pm.environment.get(\"costCenterId\"))\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}{{CostCenter}}{{costCenterId}}",
+											"host": [
+												"{{url}}{{CostCenter}}{{costCenterId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InativarCostCenter",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code\", function(){\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,202])\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Inativar com sucesso\", function(){\r",
+													"    pm.expect(pm.response.json().msg).to.be.eql(\"Centro de custos inativado com sucesso!\")\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{CostCenter}}/status/{{costCenterId}}",
+											"host": [
+												"{{url}}{{CostCenter}}"
+											],
+											"path": [
+												"status",
+												"{{costCenterId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CriarDepartment",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var Department = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"];\r",
+													"\r",
+													"//Selecionar numero randomico\r",
+													"var RandomId = [Math.floor(Math.random()*Department.length)];\r",
+													"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+													"var RandomDep = Department[RandomId];\r",
+													"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+													"var DepName = (RandomDep +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+													"//Salvar o Department gerado em uma variavel\r",
+													"pm.environment.set(\"departmentName\",DepName);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code deve ser 201\", function(){\r",
+													"    pm.response.to.have.status(201);\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Mensagem de Retorno\", function(){\r",
+													"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso.\");\r",
+													"})\r",
+													"\r",
+													"// pm.environment.set(\"departmentID\", JSON.parse(responseBody).newDepartment._id);\r",
+													"\r",
+													"pm.environment.set(\"departmentID\", pm.response.json().newDepartment._id);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"departmentName\": \"{{departmentName}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{Department}}",
+											"host": [
+												"{{url}}{{Department}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PesquisarDepartamentoID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Retorno da pesquia\", function(){\r",
+													"    pm.expect(pm.response.json()).to.be.not.empty\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Retornou cadastro correto\", function(){\r",
+													"    pm.expect(pm.response.json().department._id).to.be.eql(pm.environment.get(\"departmentID\"))\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}{{Department}}{{departmentID}}",
+											"host": [
+												"{{url}}{{Department}}{{departmentID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InativarSemRegistroAssociado",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Departamento inativado\", function(){\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,202])\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Mensagem de Validação\", function(){\r",
+													"    pm.expect(pm.response.json().msg).to.eql(\"Departamento inativado com sucesso.\")\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{TokenAdmin}}",
+													"type": "string"
+												},
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}{{DepartmentStatus}}{{departmentID}}",
+											"host": [
+												"{{url}}{{DepartmentStatus}}{{departmentID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "InativarComValorEmBranco",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Nao permitir alteração\", function(){\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([500])\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Validação\", function(){\r",
+											"    pm.expect(pm.response.json().error).to.match(/CastError: Cast to Boolean failed for value/)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "apikey",
 									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
 										{
 											"key": "value",
 											"value": "{{TokenAdmin}}",
 											"type": "string"
 										},
 										{
-											"key": "in",
-											"value": "query",
-											"type": "string"
-										},
-										{
 											"key": "key",
-											"value": "token",
+											"value": "Authorization",
 											"type": "string"
 										}
 									]
@@ -1712,7 +3435,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"status\": false\r\n}",
+									"raw": "{\r\n  \"status\": \"\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1720,35 +3443,40 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/api/department/status/{{departmentID}}",
+									"raw": "{{url}}{{DepartmentStatus}}{{departmentID}}",
 									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"department",
-										"status",
-										"{{departmentID}}"
+										"{{url}}{{DepartmentStatus}}{{departmentID}}"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Peesquisar departamento específico com sucesso",
+							"name": "InativarComValorNaoPermitido",
 							"event": [
 								{
-									"listen": "test",
+									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
+											"var valor = (pm.variables.replaceIn('{{$randomAlphaNumeric}}')+pm.variables.replaceIn('{{$randomAlphaNumeric}}')+pm.variables.replaceIn('{{$randomAlphaNumeric}}')+pm.variables.replaceIn('{{$randomAlphaNumeric}}')+pm.variables.replaceIn('{{$randomAlphaNumeric}}')+pm.variables.replaceIn('{{$randomAlphaNumeric}}'));\r",
 											"\r",
-											"pm.test(\"Check if response is an object\", function () {\r",
-											"    var responseList = pm.response.json();\r",
-											"    pm.expect(responseList).to.be.an('object');\r",
-											"});"
+											"pm.environment.set(\"Valor\", valor)"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Nao permitir alteração\", function(){\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([500])\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Validação\", function(){\r",
+											"    pm.expect(pm.response.json().error).to.match(/CastError: Cast to Boolean failed for value/)\r",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1761,47 +3489,79 @@
 									"apikey": [
 										{
 											"key": "in",
-											"value": "query",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "token",
+											"value": "header",
 											"type": "string"
 										},
 										{
 											"key": "value",
 											"value": "{{TokenAdmin}}",
 											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
 										}
 									]
 								},
-								"method": "GET",
+								"method": "PUT",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"status\": \"{{Valor}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{url}}/api/department/{{departmentID}}",
+									"raw": "{{url}}{{DepartmentStatus}}{{departmentID}}",
 									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"department",
-										"{{departmentID}}"
+										"{{url}}{{DepartmentStatus}}{{departmentID}}"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Listar contagem de departamentos",
+							"name": "CriarBoard",
 							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Lista com varios Boards\r",
+											"var Boards = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"]; \r",
+											"\r",
+											"//Selecionar numero randomico\r",
+											"var RandomId = [Math.floor(Math.random()*Boards.length)];\r",
+											"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+											"var RandomBoard = Boards[RandomId];\r",
+											"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+											"var BoardName = (RandomBoard +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+											"//Salvar o Board gerado em uma variavel\r",
+											"pm.environment.set(\"BoardName\",BoardName);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});"
+											"pm.test(\"Status Code deve ser 201\", function(){\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Retorno\", function(){\r",
+											"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso!\");\r",
+											"})\r",
+											"\r",
+											"pm.environment.set(\"boardID\", pm.response.json().newBoard._id);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1814,32 +3574,203 @@
 									"apikey": [
 										{
 											"key": "in",
-											"value": "query",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "token",
+											"value": "header",
 											"type": "string"
 										},
 										{
 											"key": "value",
 											"value": "{{TokenAdmin}}",
 											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
 										}
 									]
 								},
-								"method": "GET",
+								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"boardName\": \"{{BoardName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{url}}/api/department/count",
+									"raw": "{{url}}{{Board}}",
 									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"department",
-										"count"
+										"{{url}}{{Board}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CriarCostCenter",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code deve ser 201\", function(){\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Retorno\", function(){\r",
+											"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso.\");\r",
+											"})\r",
+											"\r",
+											"pm.environment.set(\"costCenterId\", pm.response.json().newCostCenter._id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var CostCenter = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"];\r",
+											"\r",
+											"//Selecionar numero randomico\r",
+											"var RandomId = [Math.floor(Math.random()*CostCenter.length)];\r",
+											"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+											"var RandomCC = CostCenter[RandomId];\r",
+											"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+											"var CCName = (\"CC\"+ \" \" + RandomCC +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+											"//Salvar o CoastCenter gerado em uma variavel\r",
+											"pm.environment.set(\"CostCenterName\",CCName);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"costCenterName\": \"{{CostCenterName}}\",\r\n  \"boardId\": \"{{boardID}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{CostCenter}}",
+									"host": [
+										"{{url}}{{CostCenter}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CriarDepartment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var Department = [\"Financeiro\", \"Recursos Humanos\", \"Vendas\", \"Marketing\", \"Tecnologia\", \"Producao\", \"Logistica\", \"Juridico\", \"Comunicacao\", \"Operacoes\", \"Qualidade\", \"Desenvolvimento\", \"Estrategia\", \"Design\", \"Compras\", \"Servicos\", \"TI\", \"Manutencao\", \"Pesquisa e Desenvolvimento\", \"Atendimento ao Cliente\", \"Relacopes Publicas\", \"Projetos\", \"Engenharia\", \"Contabilidade\", \"Controladoria\", \"Planejamento\", \"Inovacao\", \"Assuntos Regulatorios\", \"Seguranca da Informacao\", \"Auditoria Interna\", \"Treinamento\", \"Comercio\", \"Sustentabilidade\", \"Comunidade e Meio Ambiente\", \"Inteligencia de Mercado\", \"Recrutamento\", \"Logistica Interna\", \"Logistica Externa\", \"Producao de Conteudo\", \"Marketing Digital\", \"Publicidade\", \"Relacoes Governamentais\", \"Parcerias Estrategicas\", \"Analise de Dados\", \"Sistemas de Informacao\", \"Arquitetura de Software\", \"Engenharia de Software\", \"Desenvolvimento de Produto\", \"Pesquisa de Mercado\", \"Relacoes com Investidores\", \"Fusoes e Aquisicoes\", \"Gestqo de Riscos\", \"Compliance\", \"Gestao de Projetos\", \"Qualidade de Produto\", \"Analise Financeira\", \"Gestao de Custos\", \"Tributacao\", \"Planejamento Estrategico\", \"Design de Produto\", \"Pesquisa de Usuarios\", \"Customer Success\", \"Suporte Tecnico\", \"Infraestrutura de TI\", \"Seguranca Fisica\", \"Seguranca Patrimonial\", \"Auditoria Externa\", \"Auditoria de TI\", \"Marketing de Conteudo\", \"Relacoes com a Imprensa\", \"Gestao de Crises\", \"Gestao de Marca\", \"Gestao de Patrimonio\", \"Gestao de Fornecedores\", \"Gestao de Contratos\", \"Gestao de Inventario\", \"Gestao de Estoque\", \"Gestao de Frota\", \"Gestao de Transporte\", \"Gestao de Armazenagem\", \"Gestao de Suprimentos\", \"Gestao de Compras\", \"Gestao de Demandas\", \"Gestao de Qualidade\", \"Gestao de Mudancas\", \"Gestao de Processos\", \"Gestao de Pessoas\"];\r",
+											"\r",
+											"//Selecionar numero randomico\r",
+											"var RandomId = [Math.floor(Math.random()*Department.length)];\r",
+											"//Selecionar indice da lista apartir do numero gerado aleatoriamente\r",
+											"var RandomDep = Department[RandomId];\r",
+											"//Concatenar o nome aleatorio com um codigo de pais aleatorio\r",
+											"var DepName = (RandomDep +\" \"+ pm.variables.replaceIn('{{$randomCountryCode}}'))\r",
+											"//Salvar o Department gerado em uma variavel\r",
+											"pm.environment.set(\"departmentName\",DepName);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code deve ser 201\", function(){\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Mensagem de Retorno\", function(){\r",
+											"        pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso.\");\r",
+											"})\r",
+											"\r",
+											"// pm.environment.set(\"departmentID\", JSON.parse(responseBody).newDepartment._id);\r",
+											"\r",
+											"pm.environment.set(\"departmentID\", pm.response.json().newDepartment._id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{TokenAdmin}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{departmentName}}\",\r\n  \"costCenterId\": \"{{costCenterId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{Department}}",
+									"host": [
+										"{{url}}{{Department}}"
 									]
 								}
 							},
