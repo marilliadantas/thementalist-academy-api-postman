@@ -1,5 +1,5 @@
 {
-	"id": "a5d39c55-d63f-4576-8c12-290c22932c5a",
+	"id": "8ebbbbb6-5ae0-4a78-8d68-6f00b5911394",
 	"values": [
 		{
 			"key": "TokenAdmin",
@@ -24,10 +24,34 @@
 			"value": "1234@Test",
 			"type": "secret",
 			"enabled": true
+		},
+		{
+			"key": "Board",
+			"value": "/api/board/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "CostCenter",
+			"value": "/api/costCenter/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Department",
+			"value": "/api/department/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "DepartmentStatus",
+			"value": "/api/department/status/",
+			"type": "default",
+			"enabled": true
 		}
 	],
 	"name": "Globals",
 	"_postman_variable_scope": "globals",
-	"_postman_exported_at": "2024-04-21T01:53:33.544Z",
-	"_postman_exported_using": "Postman/10.24.22"
+	"_postman_exported_at": "2024-05-10T17:53:41.177Z",
+	"_postman_exported_using": "Postman/11.0.12"
 }
