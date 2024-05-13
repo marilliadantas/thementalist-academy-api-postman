@@ -44,7 +44,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://marilliadantas.github.io/thementalist-academy-api-postman/report.html
+      url: https://marilliadantas.github.io/thementalist-academy-api-postman/Report.html
     steps:
       - name: Setup Pages
         uses: actions/configure-pages@v5
