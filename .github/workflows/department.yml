@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: robot-report-api-postman
+          name: robot-report-api-postman-department
           path: results/
 
   deploy:
@@ -52,7 +52,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with: 
-          name: robot-report-api-postman
+          name: robot-report-api-postman-department
                             
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
