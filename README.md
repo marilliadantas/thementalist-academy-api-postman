@@ -1,8 +1,6 @@
 <h1 align="center"> 🤖 Automação API com Postman - Squad The Mentalist 🧠</h1>
 
-![STATUS](https://img.shields.io/static/v1?label=STATUS&message=%20EM%20CONSTRU%C3%87%C3%83O&color=yellow&style=for-the-badge)
-
-
+![STATUS](https://img.shields.io/static/v1?label=STATUS&message=%20%20FINALIZADO&color=GREEN&style=for-the-badge)
 
 ## 💬 Sobre o projeto
 <p> Esse projeto foi proposto pelo Academy da instuituição Qa.Coders. O nosso objetivo nesse projeto, é encontrar melhorias e inconsistências e além de tudo, aprender novas tecnologias e trabalhar em equipe. Para documentar o projeto e executar os testes nós utilizamos um swagger e as  PBIs disponibilizadas pelos Qa.Coders durante as 6 Sprints do projeto.
