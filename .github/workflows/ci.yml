@@ -1,0 +1,64 @@
+name: Auth tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Step 1 Check version Newman and Node
+        run: |
+          newman --version
+          node --version
+            
+      - name: Step 2 Install Newman-Reporter-Htmlextra
+        run: sudo npm install -g newman-reporter-htmlextra
+        
+      - name: Step 3 Execute collection
+        run: newman run The Mentalist_collection.json -e env-QaCoders.json -g env-globals.json --delay-request 1 --reporters cli,htmlextra --reporter-htmlextra-export ./results/Report.html
+
+      - name: Step 4 Archive production artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: robot-report-api-postman
+          path: results/  
+
+  deploy:
+    name: Deploy GitHub Pages 🌐
+    runs-on: ubuntu-latest
+    needs: 
+      - build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: https://marilliadantas.github.io/thementalist-academy-api-postman/Report.html
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+                            
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with: 
+          name: robot-report-api-postman
+                            
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+            path: ./
+                            
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
