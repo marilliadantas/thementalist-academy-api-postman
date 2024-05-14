@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f0d7d37c-7a65-4a0d-85dd-899d235ffa07",
+		"_postman_id": "08e0c0d0-c5da-4c55-9bd5-ad7a1f628918",
 		"name": "The Mentalist",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23658573"
+		"_exporter_id": "30651165"
 	},
 	"item": [
 		{
@@ -3814,12 +3814,7 @@
 									"script": {
 										"exec": [
 											"//Gravar id para consulta com ID\r",
-											"// var response = JSON.parse(responseBody);\r",
-											"// var indice = Math.floor(Math.random()* response.length);\r",
-											"// var id = response[indice]._id;\r",
-											"// pm.environment.set(\"departmentID\", id);\r",
 											" var response = pm.response.json();\r",
-											" console.log(response)\r",
 											" var indice = Math.floor(Math.random()* response.length);\r",
 											" var id = response[indice]._id;\r",
 											" pm.environment.set(\"departmentID\", id);\r",
@@ -3832,8 +3827,7 @@
 											"//Verificar se esta retornando um lista com dados\r",
 											"pm.test(\"Verificar se o responseBody é um array preenchido\", function(){\r",
 											"    pm.expect(pm.response.json()).to.be.an('array').that.is.not.empty;\r",
-											"})\r",
-											""
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
